@@ -1,0 +1,196 @@
+
+<main class="inhalt">
+  <!-- Begrüßungsbereich der Startseite -->
+  <section class="digital">
+
+ <div class="digital-text">
+    <p class="digital-label"> MEIN DIGITALER KLEIDERSCHRANK</p> 
+    <h1 class="digital-titel">Every outfit keeps a little memory alive.</h1> 
+    
+    <p class="digital-description"> "Save your favorite outfits. 
+      Style for every season and occasion"</p> 
+    <button class="digital-button" type="button"> 
+        <span aria-hidden="true"> ♡ </span> 
+        Erstes Outfit erstellen </button>
+
+        <!-- h1: Der Haupttitel dieser Seite -->
+        <!-- p: ein ganz normaler Satz-->
+        <!-- div : Ein allgemeiner Container für CSS-Layouts-->
+        <!-- aria-hidden="true": Das Element ist sichtbar, wird aber von Screenreadern ignoriert. -->
+       <!-- aria-hidden="false": Das Element ist sichtbar und kann von Screenreadern vorgelesen werden. -->
+</div>
+
+ <!-- Dekorativer Vorschaubereich -->
+  <div class="digital-preview" aria-hidden="true">
+    <div class="preview-symbol preview-pink">♡</div>
+    <div class="preview-symbol preview-purple">✿</div>
+    <div class="preview-symbol preview-yellow">☀</div>
+    <div class="preview-symbol preview-green">❀</div>
+
+    <!-- digital-preview ist der Klassenname für den gesamten Vorschaubereich.  aria-hidden="true"= Dieser Bereich ist rein dekorativ und wird deshalb von Screenreadern ignoriert.-->
+  </div>
+  </section>
+
+  <section class ="seasons" id="seasons">
+    <div class="seasons-titel">
+  <p class="seasons-label">STYLE FÜR JEDE JAHRESZEIT</p>
+ <h2> 4 JAHRESZEITEN, 4 LOOKS</h2>
+ <p class="seasons-description">Entdecke passende Outfit-Ideen für Frühling, Sommer, Herbst und Winter.</p>
+
+</div>
+
+
+
+<!-- Karten für Frühling, Sommer, Herbst und Winter -->
+<div class="seasons-grid">
+  <article class="season-card spring">
+    <span class="season-icon" aria-hidden="true">🌸</span>
+    <h3>Frühling</h3>
+    <p>Leichte Farben und verspielte Looks für milde Tage.</p>
+  </article>
+
+  <article class="season-card summer">
+    <span class="season-icon" aria-hidden="true">☀️</span>
+    <h3>Sommer</h3>
+    <p>Luftige Outfits für sonnige und warme Tage.</p>
+  </article>
+
+  <article class="season-card autumn">
+    <span class="season-icon" aria-hidden="true">🍂</span>
+    <h3>Herbst</h3>
+    <p>Warme Farben und gemütliche Looks für kühle Tage.</p>
+  </article>
+
+  <article class="season-card winter">
+    <span class="season-icon" aria-hidden="true">❄️</span>
+    <h3>Winter</h3>
+    <p>Kuschelige Schichten für kalte Wintertage.</p>
+  </article>
+</div>
+</section>
+<!-- article = enthält einen eigenständigen Inhalt.-->
+
+
+
+
+
+<!-- Bereich für gespeicherte Outfits -->
+<section class="collection" id="outfits">
+
+  <!-- Oberer Bereich mit Titel und Filterbuttons -->
+  <div class="collection-top">
+
+    <!-- Titel der Outfit-Sammlung -->
+    <div class="collection-heading">
+      <p class="collection-label">MEINE SAMMLUNG</p>
+      <h2>Zuletzt gespeicherte Outfits</h2>
+    </div>
+
+    <!-- Filterbuttons für die Jahreszeiten -->
+    <div
+      class="collection-filters"
+      role="group"
+      aria-label="Outfits nach Jahreszeit filtern"
+    >
+      <button class="filter-button" type="button" aria-pressed="true">
+        Alle
+      </button>
+
+      <button class="filter-button" type="button" aria-pressed="false">
+        Frühling
+      </button>
+
+      <button class="filter-button" type="button" aria-pressed="false">
+        Sommer
+      </button>
+
+      <button class="filter-button" type="button" aria-pressed="false">
+        Herbst
+      </button>
+
+      <button class="filter-button" type="button" aria-pressed="false">
+        Winter
+      </button>
+
+
+    </div>
+
+  </div>
+<!-- Bereich für die gespeicherten Outfit-Karten -->
+<div class="outfit-grid">
+
+  <!-- Beispielkarte für ein Frühlingsoutfit -->
+  <article class="outfit-card" data-season="spring">
+
+    <!-- Platzhalter für ein späteres Outfit-Bild -->
+    <div class="outfit-visual spring-outfit">
+      <span aria-hidden="true">🌸</span>
+    </div>
+
+    <!-- Name und Informationen des Outfits -->
+    <div class="outfit-info">
+      <h3>Kirschblüten-Date-Look</h3>
+      <p>Frühling · Date · Rosa</p>
+    </div>
+
+  </article>
+<!-- Beispielkarte für ein Sommeroutfit -->
+<article class="outfit-card" data-season="summer">
+
+  <!-- Platzhalter für ein späteres Outfit-Bild -->
+  <div class="outfit-visual summer-outfit">
+    <span aria-hidden="true">☀️</span>
+  </div>
+
+  <!-- Name und Informationen des Outfits -->
+  <div class="outfit-info">
+    <h3>Sommerkleid mit Schleife</h3>
+    <p>Sommer · Alltag · Creme</p>
+  </div>
+
+</article>
+
+
+<!-- Beispielkarte für ein Herbstoutfit -->
+<article class="outfit-card" data-season="autumn">
+
+  <!-- Platzhalter für ein späteres Outfit-Bild -->
+  <div class="outfit-visual autumn-outfit">
+    <span aria-hidden="true">🍂</span>
+  </div>
+
+  <!-- Name und Informationen des Outfits -->
+  <div class="outfit-info">
+    <h3>Gemütlicher Café-Look</h3>
+    <p>Herbst · Café · Altrosa</p>
+  </div>
+
+</article>
+
+
+<!-- Beispielkarte für ein Winteroutfit -->
+<article class="outfit-card" data-season="winter">
+
+  <!-- Platzhalter für ein späteres Outfit-Bild -->
+  <div class="outfit-visual winter-outfit">
+    <span aria-hidden="true">❄️</span>
+  </div>
+
+  <!-- Name und Informationen des Outfits -->
+  <div class="outfit-info">
+    <h3>Kuscheliger Mantel-Look</h3>
+    <p>Winter · Alltag · Lavendel</p>
+  </div>
+
+</article>
+
+</div>
+</section>
+
+<!-- role="group" -----Fasst mehrere zusammengehörige Buttons zu einer Gruppe zusammen.-->
+ <!-- aria-pressed="true" --- Der Button ist aktuell ausgewählt.-->
+<!-- aria-pressed="false" --- Der Button ist aktuell nicht ausgewählt.-->
+ <!-- aria-label="Outfits nach Jahreszeit filtern" Beschreibt den Zweck der Filtergruppe für Screenreader Beschreibt den Zweck eines Elements für Screenreader.-->
+
+
+</main>
