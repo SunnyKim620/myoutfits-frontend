@@ -116,75 +116,53 @@
     </div>
 
   </div>
+  
 <!-- Bereich für die gespeicherten Outfit-Karten -->
-<div class="outfit-grid">
 
-  <!-- Beispielkarte für ein Frühlingsoutfit -->
-  <article class="outfit-card" data-season="spring">
 
-    <!-- Platzhalter für ein späteres Outfit-Bild -->
-    <div class="outfit-visual spring-outfit">
-      <span aria-hidden="true">🌸</span>
+@if (outfits$ | async; as outfits) {
+
+  @if (outfits.length === 0) {
+    <p>Noch keine Outfits gespeichert.</p>
+  } @else {
+
+    <div class="outfit-grid">
+
+      @for (outfit of outfits; track outfit._id) {
+        <article class="outfit-card">
+
+          <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
+            <span aria-hidden="true">
+              @switch (outfit.season) {
+                @case ('spring') { 🌸 }
+                @case ('summer') { ☀️ }
+                @case ('autumn') { 🍂 }
+                @case ('winter') { ❄️ }
+              }
+            </span>
+          </div>
+
+          <div class="outfit-info">
+            <h3>{{ outfit.title }}</h3>
+
+            <p>
+              {{ outfit.season }} ·
+              {{ outfit.occasion }} ·
+              {{ outfit.color }}
+            </p>
+
+            @if (outfit.description) {
+              <p>{{ outfit.description }}</p>
+            }
+          </div>
+
+        </article>
+      }
+
     </div>
+  }
+}
 
-    <!-- Name und Informationen des Outfits -->
-    <div class="outfit-info">
-      <h3>Kirschblüten-Date-Look</h3>
-      <p>Frühling · Date · Rosa</p>
-    </div>
-
-  </article>
-<!-- Beispielkarte für ein Sommeroutfit -->
-<article class="outfit-card" data-season="summer">
-
-  <!-- Platzhalter für ein späteres Outfit-Bild -->
-  <div class="outfit-visual summer-outfit">
-    <span aria-hidden="true">☀️</span>
-  </div>
-
-  <!-- Name und Informationen des Outfits -->
-  <div class="outfit-info">
-    <h3>Sommerkleid mit Schleife</h3>
-    <p>Sommer · Alltag · Creme</p>
-  </div>
-
-</article>
-
-
-<!-- Beispielkarte für ein Herbstoutfit -->
-<article class="outfit-card" data-season="autumn">
-
-  <!-- Platzhalter für ein späteres Outfit-Bild -->
-  <div class="outfit-visual autumn-outfit">
-    <span aria-hidden="true">🍂</span>
-  </div>
-
-  <!-- Name und Informationen des Outfits -->
-  <div class="outfit-info">
-    <h3>Gemütlicher Café-Look</h3>
-    <p>Herbst · Café · Altrosa</p>
-  </div>
-
-</article>
-
-
-<!-- Beispielkarte für ein Winteroutfit -->
-<article class="outfit-card" data-season="winter">
-
-  <!-- Platzhalter für ein späteres Outfit-Bild -->
-  <div class="outfit-visual winter-outfit">
-    <span aria-hidden="true">❄️</span>
-  </div>
-
-  <!-- Name und Informationen des Outfits -->
-  <div class="outfit-info">
-    <h3>Kuscheliger Mantel-Look</h3>
-    <p>Winter · Alltag · Lavendel</p>
-  </div>
-
-</article>
-
-</div>
 </section>
 
 <!-- role="group" -----Fasst mehrere zusammengehörige Buttons zu einer Gruppe zusammen.-->

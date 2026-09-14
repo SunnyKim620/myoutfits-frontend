@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { OutfitService } from '../../services/outfit';
 
 @Component({
-  imports: [],
+  imports: [AsyncPipe],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {}
+export class Home {
+  private readonly outfitService = inject(OutfitService);
+
+  readonly outfits$ = this.outfitService.getOutfits();
+}
