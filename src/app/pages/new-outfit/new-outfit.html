@@ -1,0 +1,162 @@
+<main class="new-outfit-page">
+
+  <section class="form-card">
+
+    <p class="form-label">
+      MEIN DIGITALER KLEIDERSCHRANK
+    </p>
+
+    <h1>Neues Outfit erstellen</h1>
+
+    <p class="form-description">
+      Speichere einen neuen Look in deiner persönlichen Sammlung.
+    </p>
+
+
+    <!-- Das Formular sendet seine Daten mit der Methode saveOutfit(). -->
+    <form
+      #outfitForm="ngForm"
+      (ngSubmit)="saveOutfit()"
+    >
+
+      <!-- Eingabefeld für den Namen des Outfits -->
+      <div class="form-group">
+
+        <label for="title">
+          Name des Outfits
+        </label>
+
+        <input
+          id="title"
+          name="title"
+          type="text"
+          [(ngModel)]="outfit.title"
+          required
+          maxlength="80"
+          placeholder="Zum Beispiel: Frühlings-Look"
+        >
+
+      </div>
+
+
+      <!-- Auswahlfeld für die Jahreszeit -->
+      <div class="form-group">
+
+        <label for="season">
+          Jahreszeit
+        </label>
+
+        <select
+          id="season"
+          name="season"
+          [(ngModel)]="outfit.season"
+          required
+        >
+          <option value="spring">Frühling</option>
+          <option value="summer">Sommer</option>
+          <option value="autumn">Herbst</option>
+          <option value="winter">Winter</option>
+        </select>
+
+      </div>
+
+
+      <!-- Eingabefeld für den Anlass -->
+      <div class="form-group">
+
+        <label for="occasion">
+          Anlass
+        </label>
+
+        <input
+          id="occasion"
+          name="occasion"
+          type="text"
+          [(ngModel)]="outfit.occasion"
+          required
+          placeholder="Zum Beispiel: Alltag oder Date"
+        >
+
+      </div>
+
+
+      <!-- Eingabefeld für die Hauptfarbe -->
+      <div class="form-group">
+
+        <label for="color">
+          Hauptfarbe
+        </label>
+
+        <input
+          id="color"
+          name="color"
+          type="text"
+          [(ngModel)]="outfit.color"
+          required
+          placeholder="Zum Beispiel: Rosa"
+        >
+
+      </div>
+
+
+      <!-- Optionales Textfeld für eine Beschreibung -->
+      <div class="form-group">
+
+        <label for="description">
+          Beschreibung
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="outfit.description"
+          rows="4"
+          placeholder="Beschreibe dein Outfit."
+        ></textarea>
+
+      </div>
+
+
+      <!-- Kontrollkästchen für ein Lieblingsoutfit -->
+      <label class="favorite-field">
+
+        <input
+          name="favorite"
+          type="checkbox"
+          [(ngModel)]="outfit.favorite"
+        >
+
+        Als Favorit speichern
+
+      </label>
+
+
+      <!-- Wird nur angezeigt, wenn beim Speichern ein Fehler auftritt. -->
+      @if (errorMessage) {
+
+        <p class="error-message">
+          {{ errorMessage }}
+        </p>
+
+      }
+
+
+      <button
+        class="save-button"
+        type="submit"
+        [disabled]="outfitForm.invalid || isSaving"
+      >
+
+        @if (isSaving) {
+          Wird gespeichert...
+        } @else {
+          Outfit speichern
+        }
+
+      </button>
+
+    </form>
+
+  </section>
+
+</main>

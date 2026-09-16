@@ -1,13 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Outfit } from '../models/outfit';
 import { Observable } from 'rxjs';
+
+import { Outfit } from '../models/outfit';
+
+
 @Service()
 export class OutfitService {
-     private readonly http = inject(HttpClient);
-     private readonly apiUrl = 'http://localhost:3000/api/outfits';
+
+     private readonly http = 
+     inject(HttpClient); // Stellt Funktionen für HTTP-Anfragen bereit.
+
+     private readonly apiUrl = 
+     'http://localhost:3000/api/outfits';  // Adresse der Outfit-API im Backend.
 
     getOutfits(): Observable<Outfit[]> {
-    return this.http.get<Outfit[]>(this.apiUrl);
+
+    return this.http.get<Outfit[]>(
+        this.apiUrl
+    );  // Lädt alle Outfits vom Backend.
+
+    }
+    
+     createOutfit(outfit: Outfit): Observable<Outfit> {
+
+    return this.http.post<Outfit>(
+      this.apiUrl,
+      outfit
+    ); // Sendet ein neues Outfit an das Backend.
+
+
   }
 }
