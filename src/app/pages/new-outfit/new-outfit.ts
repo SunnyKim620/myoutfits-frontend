@@ -11,7 +11,7 @@ import { OutfitService } from '../../services/outfit';
 
   imports: [
     FormsModule,
-  ], // Ermöglicht die Verbindung zwischen Formularfeldern und TypeScript.
+  ],
 
   templateUrl: './new-outfit.html',
   styleUrl: './new-outfit.css',
@@ -34,28 +34,152 @@ export class NewOutfit {
     description: '',
     favorite: false,
 
-  }; // Enthält die Werte des Formulars für das neue Outfit.
+  }; // Enthält die Textdaten des neuen Outfits.
 
 
-  isSaving = false; // Zeigt, ob das Outfit gerade gespeichert wird.
+  selectedFile: File | null =
+    null; // Speichert die ausgewählte Bilddatei.
 
-  errorMessage = ''; // Speichert eine mögliche Fehlermeldung.
+  imagePreview =
+    ''; // Speichert die Adresse für die Bildvorschau.
+
+  isSaving =
+    false; // Zeigt, ob das Outfit gerade gespeichert wird.
+
+  errorMessage =
+    ''; // Speichert eine mögliche Fehlermeldung.
+
+
+  onFileSelected(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    const file =
+      input.files?.[0];
+
+
+    if (!file) {
+
+      this.selectedFile = null;
+
+      this.imagePreview = '';
+
+      return;
+
+    }
+
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+    ];
+
+
+    if (!allowedTypes.includes(file.type)) {
+
+      this.errorMessage =
+        'Bitte wähle ein JPG-, PNG- oder WebP-Bild aus.';
+
+      input.value = '';
+
+      return;
+
+    }
+
+
+    if (file.size > 5 * 1024 * 1024) {
+
+      this.errorMessage =
+        'Das Bild darf höchstens 5 MB groß sein.';
+
+      input.value = '';
+
+      return;
+
+    }
+
+
+    this.selectedFile = file;
+
+    this.errorMessage = '';
+
+
+    const reader =
+      new FileReader();
+
+    reader.onload = () => {
+
+      this.imagePreview =
+        reader.result as string;
+
+    }; // Erstellt eine Vorschau des ausgewählten Bildes.
+
+    reader.readAsDataURL(file);
+
+  }
 
 
   saveOutfit(): void {
 
-    this.isSaving = true; // Deaktiviert den Button während des Speicherns.
+    this.isSaving = true;
 
-    this.errorMessage = ''; // Entfernt eine vorherige Fehlermeldung.
+    this.errorMessage = '';
+
+
+    const outfitData =
+      new FormData(); // Erstellt ein Formular für Textdaten und Bilddatei.
+
+
+    outfitData.append(
+      'title',
+      this.outfit.title
+    );
+
+    outfitData.append(
+      'season',
+      this.outfit.season
+    );
+
+    outfitData.append(
+      'occasion',
+      this.outfit.occasion
+    );
+
+    outfitData.append(
+      'color',
+      this.outfit.color
+    );
+
+    outfitData.append(
+      'description',
+      this.outfit.description
+    );
+
+    outfitData.append(
+      'favorite',
+      String(this.outfit.favorite)
+    );
+
+
+    if (this.selectedFile) {
+
+      outfitData.append(
+        'image',
+        this.selectedFile
+      ); // Fügt das ausgewählte Bild zum Formular hinzu.
+
+    }
 
 
     this.outfitService
-      .createOutfit(this.outfit)
+      .createOutfit(outfitData)
       .subscribe({
 
         next: () => {
 
-          this.router.navigate(['/']); // Öffnet nach erfolgreichem Speichern die Startseite.
+          this.router.navigate(['/']);
 
         },
 
@@ -64,12 +188,12 @@ export class NewOutfit {
           console.error(
             'Fehler beim Speichern des Outfits:',
             fehler
-          ); // Zeigt den technischen Fehler in der Browser-Konsole an.
+          );
 
           this.errorMessage =
             'Das Outfit konnte nicht gespeichert werden.';
 
-          this.isSaving = false; // Aktiviert den Button nach einem Fehler wieder.
+          this.isSaving = false;
 
         },
 

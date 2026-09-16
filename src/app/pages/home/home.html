@@ -92,25 +92,50 @@
       role="group"
       aria-label="Outfits nach Jahreszeit filtern"
     >
-      <button class="filter-button" type="button" aria-pressed="true">
-        Alle
-      </button>
+    <button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('all')"
+  [attr.aria-pressed]="selectedSeason === 'all'"
+>
+  Alle
+</button>
 
-      <button class="filter-button" type="button" aria-pressed="false">
-        Frühling
-      </button>
+<button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('spring')"
+  [attr.aria-pressed]="selectedSeason === 'spring'"
+>
+  Frühling
+</button>
 
-      <button class="filter-button" type="button" aria-pressed="false">
-        Sommer
-      </button>
+<button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('summer')"
+  [attr.aria-pressed]="selectedSeason === 'summer'"
+>
+  Sommer
+</button>
 
-      <button class="filter-button" type="button" aria-pressed="false">
-        Herbst
-      </button>
+<button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('autumn')"
+  [attr.aria-pressed]="selectedSeason === 'autumn'"
+>
+  Herbst
+</button>
 
-      <button class="filter-button" type="button" aria-pressed="false">
-        Winter
-      </button>
+<button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('winter')"
+  [attr.aria-pressed]="selectedSeason === 'winter'"
+>
+  Winter
+</button>
 
 
     </div>
@@ -118,31 +143,49 @@
   </div>
   
 <!-- Bereich für die gespeicherten Outfit-Karten -->
-
-
 @if (outfits$ | async; as outfits) {
 
   @if (outfits.length === 0) {
+
     <p>Noch keine Outfits gespeichert.</p>
+
   } @else {
 
     <div class="outfit-grid">
 
-      @for (outfit of outfits; track outfit._id) {
+   @for (outfit of filterOutfits(outfits); track outfit._id) {
+
         <article class="outfit-card">
 
           <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
-            <span aria-hidden="true">
-              @switch (outfit.season) {
-                @case ('spring') { 🌸 }
-                @case ('summer') { ☀️ }
-                @case ('autumn') { 🍂 }
-                @case ('winter') { ❄️ }
-              }
-            </span>
+
+            @if (outfit.imageUrl) {
+
+              <img
+                class="outfit-image"
+                [src]="'http://localhost:3000' + outfit.imageUrl"
+                [alt]="outfit.title"
+              >
+
+            } @else {
+
+              <span aria-hidden="true">
+
+                @switch (outfit.season) {
+                  @case ('spring') { 🌸 }
+                  @case ('summer') { ☀️ }
+                  @case ('autumn') { 🍂 }
+                  @case ('winter') { ❄️ }
+                }
+
+              </span>
+
+            }
+
           </div>
 
           <div class="outfit-info">
+
             <h3>{{ outfit.title }}</h3>
 
             <p>
@@ -154,17 +197,20 @@
             @if (outfit.description) {
               <p>{{ outfit.description }}</p>
             }
+
           </div>
 
         </article>
+
       }
 
     </div>
+
   }
+
 }
 
 </section>
-
 <!-- role="group" -----Fasst mehrere zusammengehörige Buttons zu einer Gruppe zusammen.-->
  <!-- aria-pressed="true" --- Der Button ist aktuell ausgewählt.-->
 <!-- aria-pressed="false" --- Der Button ist aktuell nicht ausgewählt.-->

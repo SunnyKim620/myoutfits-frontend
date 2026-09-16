@@ -5,8 +5,8 @@
 .new-outfit-page {
   min-height: calc(100vh - 210px);
   padding: 72px 24px;
-  background: #fff8fb;
   color: #603947;
+  background: #fff8fb;
 }
 
 .form-card {
@@ -51,8 +51,9 @@ form {
   gap: 9px;
 }
 
-.form-group:first-of-type,
-.form-group:nth-of-type(5),
+.image-upload-group,
+.title-group,
+.description-group,
 .favorite-field,
 .error-message,
 .save-button {
@@ -86,6 +87,48 @@ select:focus,
 textarea:focus {
   border-color: #b64d75;
   box-shadow: 0 0 0 3px rgb(182 77 117 / 12%);
+}
+
+.image-input {
+  padding: 12px;
+  background: #fffafd;
+  border: 2px dashed #e8bdcd;
+  cursor: pointer;
+}
+
+.image-input::file-selector-button {
+  margin-right: 14px;
+  padding: 10px 16px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  background: #b64d75;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.image-hint {
+  margin: 0;
+  color: #886a75;
+  font-size: 0.9rem;
+}
+
+.image-preview {
+  width: 100%;
+  margin-top: 8px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #fff0f5;
+  border: 1px solid #f3c6d6;
+  border-radius: 18px;
+}
+
+.image-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .favorite-field {

@@ -21,14 +21,13 @@ export class OutfitService {
     );  // Lädt alle Outfits vom Backend.
 
     }
-    
-     createOutfit(outfit: Outfit): Observable<Outfit> {
+ createOutfit(outfitData: FormData): Observable<Outfit> {
 
-    return this.http.post<Outfit>(
-      this.apiUrl,
-      outfit
-    ); // Sendet ein neues Outfit an das Backend.
+  return this.http.post<Outfit>(
+    this.apiUrl,
+    outfitData
+  ); // Sendet die Outfit-Daten und das Bild an das Backend.
 
 
-  }
+}
 }
