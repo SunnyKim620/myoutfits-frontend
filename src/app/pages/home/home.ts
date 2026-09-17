@@ -6,94 +6,215 @@ import {
   inject,
 } from '@angular/core';
 
+import { forkJoin } from 'rxjs';
+
 import { Outfit } from '../../models/outfit';
 
 import { OutfitService } from '../../services/outfit';
 
 
 type SeasonFilter =
-  'all' |
-  'spring' |
-  'summer' |
-  'autumn' |
-  'winter' |
+  | 'all'
+  | 'spring'
+  | 'summer'
+  | 'autumn'
+  | 'winter'
+  | 'favorites';
+// Legt die möglichen Filterwerte fest.
 
-  'favorites'; // Legt die möglichen Filterwerte fest.
+
 @Component({
-
   imports: [AsyncPipe],
-
   selector: 'app-home',
-
   styleUrl: './home.css',
-
   templateUrl: './home.html',
-
 })
-
 export class Home {
 
   private readonly outfitService =
     inject(OutfitService);
 
-    private readonly changeDetectorRef =
-  inject(ChangeDetectorRef);
+  private readonly changeDetectorRef =
+    inject(ChangeDetectorRef);
 
-    outfits$ =
+
+  outfits$ =
     this.outfitService.getOutfits();
 
 
   selectedSeason: SeasonFilter =
-    'all'; // Speichert den aktuell ausgewählten Filter.
+    'all';
+  // Speichert den aktuell ausgewählten Filter.
 
 
-  selectSeason(season: SeasonFilter): void {
-
-    this.selectedSeason =
-      season; // Ändert den ausgewählten Filter.
-
-  }
+  selectionMode = false;
+  // Speichert, ob der Auswahlmodus aktiviert ist.
 
 
-  filterOutfits(outfits: Outfit[]): Outfit[] {
-
-    if (this.selectedSeason === 'all') {
-
-      return outfits;
-
-    }
-
-    if (this.selectedSeason === 'favorites') {
-
-      return outfits.filter(
-        (outfit) => outfit.favorite
-      ); // Zeigt nur als Favorit gespeicherte Outfits an.
-
-    }
-
-    return outfits.filter(
-      (outfit) =>
-        outfit.season === this.selectedSeason
-    ); // Zeigt nur Outfits der ausgewählten Jahreszeit an.
-
-  }
-
+  selectedOutfitIds =
+    new Set<string>();
+  // Speichert die IDs der ausgewählten Outfits.
 
 
   selectedImageUrl = '';
   // Speichert die Adresse des aktuell vergrößerten Bildes.
 
+
   selectedImageTitle = '';
   // Speichert den Namen des aktuell vergrößerten Outfits.
 
-  selectedImageOutfit: Outfit | null = null;
+
+  selectedImageOutfit: Outfit | null =
+    null;
   // Speichert das aktuell angezeigte Outfit.
+
 
   modalOutfits: Outfit[] = [];
   // Speichert die Outfits des aktuell ausgewählten Filters.
 
+
   selectedImageIndex = -1;
   // Speichert die Position des aktuellen Bildes in der Liste.
+
+
+  toggleSelectionMode(): void {
+
+    this.selectionMode =
+      !this.selectionMode;
+    // Aktiviert oder beendet den Auswahlmodus.
+
+    if (!this.selectionMode) {
+
+      this.selectedOutfitIds.clear();
+      // Entfernt die Auswahl beim Beenden des Auswahlmodus.
+
+    }
+
+  }
+
+
+  isOutfitSelected(
+    outfit: Outfit
+  ): boolean {
+
+    return Boolean(
+      outfit._id &&
+      this.selectedOutfitIds.has(
+        outfit._id
+      )
+    );
+    // Prüft, ob das Outfit ausgewählt ist.
+
+  }
+
+
+  toggleOutfitSelection(
+    outfit: Outfit
+  ): void {
+
+    if (!outfit._id) {
+
+      return;
+
+    }
+
+    if (
+      this.selectedOutfitIds.has(
+        outfit._id
+      )
+    ) {
+
+      this.selectedOutfitIds.delete(
+        outfit._id
+      );
+      // Entfernt das Outfit aus der Auswahl.
+
+    } else {
+
+      this.selectedOutfitIds.add(
+        outfit._id
+      );
+      // Fügt das Outfit zur Auswahl hinzu.
+
+    }
+
+  }
+
+
+  selectAllVisibleOutfits(
+    outfits: Outfit[]
+  ): void {
+
+    for (const outfit of outfits) {
+
+      if (outfit._id) {
+
+        this.selectedOutfitIds.add(
+          outfit._id
+        );
+
+      }
+
+    }
+    // Wählt alle aktuell sichtbaren Outfits aus.
+
+  }
+
+
+  clearOutfitSelection(): void {
+
+    this.selectedOutfitIds.clear();
+    // Entfernt alle Outfits aus der Auswahl.
+
+  }
+
+
+  selectSeason(
+    season: SeasonFilter
+  ): void {
+
+    this.selectedSeason =
+      season;
+    // Ändert den ausgewählten Filter.
+
+    this.selectedOutfitIds.clear();
+    // Entfernt die bisherige Auswahl beim Filterwechsel.
+
+  }
+
+
+  filterOutfits(
+    outfits: Outfit[]
+  ): Outfit[] {
+
+    if (
+      this.selectedSeason === 'all'
+    ) {
+
+      return outfits;
+
+    }
+
+    if (
+      this.selectedSeason ===
+      'favorites'
+    ) {
+
+      return outfits.filter(
+        (outfit) => outfit.favorite
+      );
+      // Zeigt nur als Favorit gespeicherte Outfits an.
+
+    }
+
+    return outfits.filter(
+      (outfit) =>
+        outfit.season ===
+        this.selectedSeason
+    );
+    // Zeigt nur Outfits der ausgewählten Jahreszeit an.
+
+  }
 
 
   openImage(
@@ -103,7 +224,8 @@ export class Home {
 
     this.modalOutfits =
       outfits.filter(
-        (element) => Boolean(element.imageUrl)
+        (element) =>
+          Boolean(element.imageUrl)
       );
     // Verwendet nur Outfits, die ein Bild besitzen.
 
@@ -120,7 +242,9 @@ export class Home {
 
   showPreviousImage(): void {
 
-    if (this.modalOutfits.length === 0) {
+    if (
+      this.modalOutfits.length === 0
+    ) {
 
       return;
 
@@ -141,7 +265,9 @@ export class Home {
 
   showNextImage(): void {
 
-    if (this.modalOutfits.length === 0) {
+    if (
+      this.modalOutfits.length === 0
+    ) {
 
       return;
 
@@ -184,7 +310,7 @@ export class Home {
   }
 
 
-   closeImage(): void {
+  closeImage(): void {
 
     this.selectedImageUrl = '';
 
@@ -200,29 +326,31 @@ export class Home {
   }
 
 
-  toggleFavorite(outfit: Outfit): void {
+  toggleFavorite(
+    outfit: Outfit
+  ): void {
 
     if (!outfit._id) {
 
-      return; // Beendet die Methode, wenn keine MongoDB-ID vorhanden ist.
+      return;
 
     }
-
 
     this.outfitService
       .toggleFavorite(outfit._id)
       .subscribe({
 
-        next: (aktualisiertesOutfit) => {
+        next:
+          (aktualisiertesOutfit) => {
 
-          outfit.favorite =
-            aktualisiertesOutfit.favorite;
-          // Übernimmt den neuen Favoritenstatus vom Backend.
+            outfit.favorite =
+              aktualisiertesOutfit.favorite;
+            // Übernimmt den Favoritenstatus vom Backend.
 
-          this.changeDetectorRef.detectChanges();
-          // Aktualisiert das Herz direkt in der Ansicht.
+            this.changeDetectorRef
+              .detectChanges();
 
-        },
+          },
 
         error: (fehler) => {
 
@@ -241,26 +369,104 @@ export class Home {
 
   }
 
-     deleteOutfit(outfit: Outfit): void {
+
+  deleteSelectedOutfits(): void {
+
+    const ids =
+      Array.from(
+        this.selectedOutfitIds
+      );
+    // Erstellt eine Liste mit den ausgewählten IDs.
+
+    if (ids.length === 0) {
+
+      window.alert(
+        'Bitte wähle mindestens ein Outfit aus.'
+      );
+
+      return;
+
+    }
+
+    const bestaetigt =
+      window.confirm(
+        `Möchtest du ${ids.length} ausgewählte Outfits wirklich löschen?`
+      );
+    // Fragt vor dem Löschen nach einer Bestätigung.
+
+    if (!bestaetigt) {
+
+      return;
+
+    }
+
+    const loeschanfragen =
+      ids.map(
+        (id) =>
+          this.outfitService
+            .deleteOutfit(id)
+      );
+    // Erstellt für jedes Outfit eine DELETE-Anfrage.
+
+    forkJoin(loeschanfragen)
+      .subscribe({
+
+        next: () => {
+
+          this.selectedOutfitIds
+            .clear();
+
+          this.selectionMode = false;
+
+          this.outfits$ =
+            this.outfitService
+              .getOutfits();
+          // Lädt die Liste nach dem Löschen erneut.
+
+          this.changeDetectorRef
+            .detectChanges();
+
+        },
+
+        error: (fehler) => {
+
+          console.error(
+            'Fehler beim Löschen der ausgewählten Outfits:',
+            fehler
+          );
+
+          window.alert(
+            'Die ausgewählten Outfits konnten nicht vollständig gelöscht werden.'
+          );
+
+        },
+
+      });
+
+  }
+
+
+  deleteOutfit(
+    outfit: Outfit
+  ): void {
 
     if (!outfit._id) {
 
-      return; // Beendet die Methode, wenn keine MongoDB-ID vorhanden ist.
+      return;
 
     }
 
     const bestaetigt =
       window.confirm(
         `Möchtest du "${outfit.title}" wirklich löschen?`
-      ); // Fragt vor dem Löschen nach einer Bestätigung.
-
+      );
+    // Fragt vor dem Löschen nach einer Bestätigung.
 
     if (!bestaetigt) {
 
-      return; // Bricht das Löschen ab.
+      return;
 
     }
-
 
     this.outfitService
       .deleteOutfit(outfit._id)
@@ -269,12 +475,12 @@ export class Home {
         next: () => {
 
           this.outfits$ =
-            this.outfitService.getOutfits();
-          // Lädt die Outfit-Liste nach dem Löschen erneut.
+            this.outfitService
+              .getOutfits();
+          // Lädt die Liste nach dem Löschen erneut.
 
-           this.changeDetectorRef.detectChanges();
-  // Aktualisiert die Ansicht direkt nach dem Löschen.
-
+          this.changeDetectorRef
+            .detectChanges();
 
         },
 
@@ -294,4 +500,5 @@ export class Home {
       });
 
   }
+
 }

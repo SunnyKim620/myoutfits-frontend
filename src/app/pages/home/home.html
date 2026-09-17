@@ -160,13 +160,78 @@
 
   } @else {
 
+    <div class="selection-controls">
+
+  <button
+    class="selection-button"
+    type="button"
+    (click)="toggleSelectionMode()"
+  >
+    {{
+      selectionMode
+        ? 'Auswahl beenden'
+        : 'Outfits auswählen'
+    }}
+  </button>
+
+  @if (selectionMode) {
+
+    <button
+      class="selection-button"
+      type="button"
+      (click)="selectAllVisibleOutfits(filterOutfits(outfits))"
+    >
+      Sichtbare auswählen
+    </button>
+
+    <button
+      class="selection-button"
+      type="button"
+      (click)="clearOutfitSelection()"
+    >
+      Auswahl aufheben
+    </button>
+
+    <button
+      class="delete-selected-button"
+      type="button"
+      (click)="deleteSelectedOutfits()"
+      [disabled]="selectedOutfitIds.size === 0"
+    >
+      Ausgewählte löschen
+      ({{ selectedOutfitIds.size }})
+    </button>
+
+  }
+
+</div>
+
     <div class="outfit-grid">
 
+    
    @for (outfit of filterOutfits(outfits); track outfit._id) {
 
         <article class="outfit-card">
 
-      <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
+    @if (selectionMode) {
+
+     <label class="outfit-selection">
+
+  <input
+    type="checkbox"
+    [checked]="isOutfitSelected(outfit)"
+    (change)="toggleOutfitSelection(outfit)"
+    [attr.aria-label]="'Outfit ' + outfit.title + ' auswählen'"
+  >
+
+  <span>Auswählen</span>
+
+</label>
+
+    }
+
+    <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
+
 
   @if (outfit.imageUrl) {
 
