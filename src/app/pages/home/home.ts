@@ -1,6 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 
 import { Outfit } from '../../models/outfit';
 
@@ -32,7 +36,10 @@ export class Home {
   private readonly outfitService =
     inject(OutfitService);
 
-  readonly outfits$ =
+    private readonly changeDetectorRef =
+  inject(ChangeDetectorRef);
+
+    outfits$ =
     this.outfitService.getOutfits();
 
 
@@ -63,4 +70,57 @@ export class Home {
 
   }
 
+     deleteOutfit(outfit: Outfit): void {
+
+    if (!outfit._id) {
+
+      return; // Beendet die Methode, wenn keine MongoDB-ID vorhanden ist.
+
+    }
+
+    const bestaetigt =
+      window.confirm(
+        `Möchtest du "${outfit.title}" wirklich löschen?`
+      ); // Fragt vor dem Löschen nach einer Bestätigung.
+
+
+    if (!bestaetigt) {
+
+      return; // Bricht das Löschen ab.
+
+    }
+
+
+    this.outfitService
+      .deleteOutfit(outfit._id)
+      .subscribe({
+
+        next: () => {
+
+          this.outfits$ =
+            this.outfitService.getOutfits();
+          // Lädt die Outfit-Liste nach dem Löschen erneut.
+
+           this.changeDetectorRef.detectChanges();
+  // Aktualisiert die Ansicht direkt nach dem Löschen.
+
+
+        },
+
+        error: (fehler) => {
+
+          console.error(
+            'Fehler beim Löschen des Outfits:',
+            fehler
+          );
+
+          window.alert(
+            'Das Outfit konnte nicht gelöscht werden.'
+          );
+
+        },
+
+      });
+
+  }
 }

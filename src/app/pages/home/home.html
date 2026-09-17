@@ -198,6 +198,18 @@
               <p>{{ outfit.description }}</p>
             }
 
+            <div class="outfit-actions">
+
+  <button
+    class="delete-button"
+    type="button"
+    (click)="deleteOutfit(outfit)"
+    [attr.aria-label]="'Outfit ' + outfit.title + ' löschen'"
+  >
+    Löschen
+  </button>
+
+</div>
           </div>
 
         </article>

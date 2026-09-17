@@ -371,3 +371,44 @@ background: linear-gradient(145deg, #ffe1ed, #fff4f8);
   line-height: 1.5;
 }
 
+.outfit-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+
+} /* Richtet die Aktionsbuttons rechts aus. */
+
+
+.delete-button {
+
+  padding: 9px 16px;
+
+  color: #9c294d;
+
+  background-color: #fff0f4;
+
+  border: 1px solid #e8a9bd;
+
+  border-radius: 999px;
+
+  font: inherit;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+}
+
+
+.delete-button:hover {
+
+  color: #ffffff;
+
+  background-color: #9c294d;
+
+  border-color: #9c294d;
+
+}

@@ -30,4 +30,12 @@ export class OutfitService {
 
 
 }
+
+deleteOutfit(id: string): Observable<void> {
+
+  return this.http.delete<void>(
+    `${this.apiUrl}/${id}`
+  ); // Sendet eine DELETE-Anfrage für das ausgewählte Outfit.
+
+}
 }
