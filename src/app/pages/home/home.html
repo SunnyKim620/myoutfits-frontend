@@ -135,8 +135,17 @@
   [attr.aria-pressed]="selectedSeason === 'winter'"
 >
   Winter
+
 </button>
 
+<button
+  class="filter-button"
+  type="button"
+  (click)="selectSeason('favorites')"
+  [attr.aria-pressed]="selectedSeason === 'favorites'"
+>
+  ♥ Favoriten
+</button>
 
     </div>
 
@@ -157,32 +166,41 @@
 
         <article class="outfit-card">
 
-          <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
+      <div [class]="'outfit-visual ' + outfit.season + '-outfit'">
 
-            @if (outfit.imageUrl) {
+  @if (outfit.imageUrl) {
 
-              <img
-                class="outfit-image"
-                [src]="'http://localhost:3000' + outfit.imageUrl"
-                [alt]="outfit.title"
-              >
+    <img
+      class="outfit-image"
+      [src]="'http://localhost:3000' + outfit.imageUrl"
+      [alt]="outfit.title"
+    >
 
-            } @else {
+    <button
+      class="view-image-button"
+      type="button"
+      (click)="openImage(outfit, filterOutfits(outfits))"
+      [attr.aria-label]="'Bild von ' + outfit.title + ' vergrößern'"
+    >
+      <span aria-hidden="true">👁</span>
+    </button>
 
-              <span aria-hidden="true">
+  } @else {
 
-                @switch (outfit.season) {
-                  @case ('spring') { 🌸 }
-                  @case ('summer') { ☀️ }
-                  @case ('autumn') { 🍂 }
-                  @case ('winter') { ❄️ }
-                }
+    <span aria-hidden="true">
 
-              </span>
+      @switch (outfit.season) {
+        @case ('spring') { 🌸 }
+        @case ('summer') { ☀️ }
+        @case ('autumn') { 🍂 }
+        @case ('winter') { ❄️ }
+      }
 
-            }
+    </span>
 
-          </div>
+  }
+
+</div>
 
           <div class="outfit-info">
 
@@ -198,7 +216,23 @@
               <p>{{ outfit.description }}</p>
             }
 
-            <div class="outfit-actions">
+        <div class="outfit-actions">
+
+  <button
+    class="favorite-button"
+    type="button"
+    (click)="toggleFavorite(outfit)"
+    [class.favorite-active]="outfit.favorite"
+    [attr.aria-label]="
+      outfit.favorite
+        ? 'Aus Favoriten entfernen'
+        : 'Als Favorit speichern'
+    "
+  >
+    <span aria-hidden="true">
+      {{ outfit.favorite ? '♥' : '♡' }}
+    </span>
+  </button>
 
   <button
     class="delete-button"
@@ -210,6 +244,8 @@
   </button>
 
 </div>
+
+
           </div>
 
         </article>
@@ -230,3 +266,80 @@
 
 
 </main>
+@if (selectedImageOutfit; as modalOutfit) {
+
+  <div
+    class="image-modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="selectedImageTitle + ' vergrößert anzeigen'"
+  >
+
+    <div class="image-modal-content">
+
+      <button
+        class="image-modal-close"
+        type="button"
+        (click)="closeImage()"
+        aria-label="Großansicht schließen"
+      >
+        ×
+      </button>
+
+
+      @if (modalOutfits.length > 1) {
+
+        <button
+          class="image-modal-arrow image-modal-previous"
+          type="button"
+          (click)="showPreviousImage()"
+          aria-label="Vorheriges Outfit anzeigen"
+        >
+          ‹
+        </button>
+
+      }
+
+
+      <img
+        class="image-modal-picture"
+        [src]="selectedImageUrl"
+        [alt]="selectedImageTitle"
+      >
+
+
+      @if (modalOutfits.length > 1) {
+
+        <button
+          class="image-modal-arrow image-modal-next"
+          type="button"
+          (click)="showNextImage()"
+          aria-label="Nächstes Outfit anzeigen"
+        >
+          ›
+        </button>
+
+      }
+
+
+      <button
+        class="modal-favorite-button"
+        type="button"
+        (click)="toggleFavorite(modalOutfit)"
+        [class.favorite-active]="modalOutfit.favorite"
+        [attr.aria-label]="
+          modalOutfit.favorite
+            ? 'Aus Favoriten entfernen'
+            : 'Als Favorit speichern'
+        "
+      >
+        <span aria-hidden="true">
+          {{ modalOutfit.favorite ? '♥' : '♡' }}
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+}

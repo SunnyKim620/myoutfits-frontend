@@ -31,6 +31,15 @@ export class OutfitService {
 
 }
 
+toggleFavorite(id: string): Observable<Outfit> {
+
+  return this.http.patch<Outfit>(
+    `${this.apiUrl}/${id}/favorite`,
+    {}
+  ); // Wechselt den Favoritenstatus des ausgewählten Outfits.
+
+}
+
 deleteOutfit(id: string): Observable<void> {
 
   return this.http.delete<void>(

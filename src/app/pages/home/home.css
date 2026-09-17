@@ -309,6 +309,8 @@ background-color: #f1f0ff;
 }
 .outfit-visual {
 
+  position: relative;
+
   display: flex;
 
   justify-content: center;
@@ -317,12 +319,11 @@ background-color: #f1f0ff;
 
   min-height: 220px;
 
-  overflow: hidden; /* Verhindert, dass das Bild über die Karte hinausragt. */
+  overflow: hidden;
 
   font-size: 42px;
 
 }
-
 .outfit-image {
 
   display: block;
@@ -331,9 +332,111 @@ background-color: #f1f0ff;
 
   height: 220px;
 
-  object-fit: cover; /* Passt das Bild an, ohne es zu verzerren. */
+  object-fit: cover;
+  /* Zeigt das Bild als gleich große Vorschau in der Outfit-Karte. */
 
 }
+
+
+.view-image-button {
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  /* Platziert den Button genau in der Mitte des Bildes. */
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  width: 52px;
+
+  height: 52px;
+
+  padding: 0;
+
+  color: #603947;
+
+  background-color: rgb(255 255 255 / 85%);
+
+  border: 1px solid #f3c6d6;
+
+  border-radius: 50%;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgb(60 30 40 / 20%);
+
+}
+
+
+.view-image-button:hover {
+
+  background-color: #ffffff;
+
+  transform: translate(-50%, -50%) scale(1.08);
+
+}
+
+
+.favorite-button {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  width: 46px;
+
+  height: 46px;
+
+  padding: 0;
+
+  color: #a84e70;
+
+  background-color: #fff8fb;
+
+  border: 1px solid #e8a9bd;
+
+  border-radius: 50%;
+
+  font-size: 28px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+}
+
+
+.favorite-button:hover {
+
+  transform: scale(1.08);
+
+  background-color: #fff0f5;
+
+}
+
+
+.favorite-button.favorite-active {
+
+  color: #d6295f;
+
+  background-color: #fff0f5;
+
+  border-color: #e89ab4;
+
+}
+
 
 .spring-outfit{
 background: linear-gradient(145deg, #ffe1ed, #fff4f8);
@@ -375,12 +478,14 @@ background: linear-gradient(145deg, #ffe1ed, #fff4f8);
 
   display: flex;
 
-  justify-content: flex-end;
+  justify-content: space-between;
+  /* Platziert den Favoritenbutton links und den Löschbutton rechts. */
+
+  align-items: center;
 
   margin-top: 18px;
 
-} /* Richtet die Aktionsbuttons rechts aus. */
-
+}
 
 .delete-button {
 
@@ -410,5 +515,239 @@ background: linear-gradient(145deg, #ffe1ed, #fff4f8);
   background-color: #9c294d;
 
   border-color: #9c294d;
+
+}
+
+.image-modal {
+
+  position: fixed;
+
+  inset: 0;
+  /* Bedeckt das gesamte Browserfenster. */
+
+  z-index: 1000;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  background-color: rgb(30 18 23 / 85%);
+
+}
+
+
+.image-modal-content {
+
+  position: relative;
+
+  max-width: 900px;
+
+  max-height: calc(100vh - 48px);
+
+}
+
+
+.image-modal-picture {
+
+  display: block;
+
+  width: auto;
+
+  height: auto;
+
+  max-width: 100%;
+
+  max-height: calc(100vh - 48px);
+
+  object-fit: contain;
+  /* Zeigt das vollständige Bild ohne Abschneiden. */
+
+  border-radius: 18px;
+
+  box-shadow: 0 20px 60px rgb(0 0 0 / 40%);
+
+}
+
+
+.image-modal-close {
+
+  position: absolute;
+
+  top: 12px;
+
+  right: 12px;
+
+  z-index: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  width: 42px;
+
+  height: 42px;
+
+  padding: 0;
+
+  color: #603947;
+
+  background-color: rgb(255 255 255 / 90%);
+
+  border: 0;
+
+  border-radius: 50%;
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+}
+
+
+.image-modal-close:hover {
+
+  color: #ffffff;
+
+  background-color: #b64d75;
+
+}
+
+.image-modal-arrow {
+
+  position: absolute;
+
+  top: 50%;
+
+  z-index: 2;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  width: 52px;
+
+  height: 52px;
+
+  padding: 0;
+
+  color: #603947;
+
+  background-color: rgb(255 255 255 / 88%);
+
+  border: 1px solid #f3c6d6;
+
+  border-radius: 50%;
+
+  font-size: 42px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transform: translateY(-50%);
+
+  box-shadow: 0 6px 18px rgb(0 0 0 / 25%);
+
+}
+
+
+.image-modal-arrow:hover {
+
+  color: #ffffff;
+
+  background-color: #b64d75;
+
+  transform: translateY(-50%) scale(1.08);
+
+}
+
+
+.image-modal-previous {
+
+  left: 16px;
+  /* Platziert den Pfeil links in der Bildmitte. */
+
+}
+
+
+.image-modal-next {
+
+  right: 16px;
+  /* Platziert den Pfeil rechts in der Bildmitte. */
+
+}
+
+
+.modal-favorite-button {
+
+  position: absolute;
+
+  left: 16px;
+
+  bottom: 16px;
+
+  z-index: 2;
+  /* Platziert das Herz links unten auf dem großen Bild. */
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  width: 50px;
+
+  height: 50px;
+
+  padding: 0;
+
+  color: #a84e70;
+
+  background-color: rgb(255 255 255 / 90%);
+
+  border: 1px solid #f3c6d6;
+
+  border-radius: 50%;
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 18px rgb(0 0 0 / 25%);
+
+}
+
+
+.modal-favorite-button:hover {
+   color: #ffffff;
+
+  transform: scale(1.08);
+
+  background-color: #d20f0f;
+
+}
+
+
+.modal-favorite-button.favorite-active {
+
+  color: #d6295f;
+
+  background-color: #fff0f5;
+
+  border-color: #e89ab4;
 
 }
