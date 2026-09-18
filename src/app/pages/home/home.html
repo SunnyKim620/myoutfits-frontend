@@ -42,26 +42,59 @@
 
 
 <!-- Karten für Frühling, Sommer, Herbst und Winter -->
-<div class="seasons-grid">
-  <article class="season-card spring">
+<div
+  class="seasons-grid"
+  [class.favorites-active]="
+    selectedSeason === 'favorites'
+  "
+>
+
+  <article
+  class="season-card spring"
+  [class.season-active]="
+    selectedSeason === 'all' ||
+    selectedSeason === 'spring'
+    "
+    >
+
     <span class="season-icon" aria-hidden="true">🌸</span>
     <h3>Frühling</h3>
     <p>Leichte Farben und verspielte Looks für milde Tage.</p>
   </article>
 
-  <article class="season-card summer">
+
+<article
+  class="season-card summer"
+  [class.season-active]="
+    selectedSeason === 'all' ||
+    selectedSeason === 'summer'
+  "
+    >
+
     <span class="season-icon" aria-hidden="true">☀️</span>
     <h3>Sommer</h3>
     <p>Luftige Outfits für sonnige und warme Tage.</p>
   </article>
 
-  <article class="season-card autumn">
+  <article
+  class="season-card autumn"
+  [class.season-active]="
+    selectedSeason === 'all' ||
+    selectedSeason === 'autumn'
+  "
+>
     <span class="season-icon" aria-hidden="true">🍂</span>
     <h3>Herbst</h3>
     <p>Warme Farben und gemütliche Looks für kühle Tage.</p>
   </article>
 
-  <article class="season-card winter">
+ <article
+  class="season-card winter"
+  [class.season-active]="
+    selectedSeason === 'all' ||
+    selectedSeason === 'winter'
+  "
+>
     <span class="season-icon" aria-hidden="true">❄️</span>
     <h3>Winter</h3>
     <p>Kuschelige Schichten für kalte Wintertage.</p>
@@ -299,13 +332,32 @@
     </span>
   </button>
 
+  @if (outfit._id) {
+
+  <button
+    class="edit-button"
+    type="button"
+    [routerLink]="[
+      '/outfits',
+      outfit._id,
+      'edit'
+    ]"
+    [attr.aria-label]="
+      'Outfit ' + outfit.title + ' bearbeiten'
+    "
+  >
+   <span aria-hidden="true">✏️</span>
+  </button>
+
+}
+
   <button
     class="delete-button"
     type="button"
     (click)="deleteOutfit(outfit)"
     [attr.aria-label]="'Outfit ' + outfit.title + ' löschen'"
   >
-    Löschen
+   <span aria-hidden="true">🗑️</span>
   </button>
 
 </div>

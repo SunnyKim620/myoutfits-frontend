@@ -1,0 +1,214 @@
+<main class="new-outfit-page">
+
+  <section class="form-card">
+
+    <p class="form-label">
+      MEIN DIGITALER KLEIDERSCHRANK
+    </p>
+
+    <h1>Outfit bearbeiten</h1>
+
+    <p class="form-description">
+      Ändere die Outfit-Daten oder ersetze das bisherige Bild.
+</p>
+ 
+
+   <!-- Das Formular sendet die Änderungen mit der Methode updateOutfit(). -->
+    <form
+      #outfitForm="ngForm"
+      (ngSubmit)="updateOutfit()"
+    >
+    <!-- Auswahl und Vorschau des Outfit-Bildes -->
+<div class="form-group image-upload-group">
+
+  <label for="image">
+    Outfit-Bild
+  </label>
+
+  <input
+    class="image-input"
+    id="image"
+    name="image"
+    type="file"
+    accept=".jpg,.jpeg,.png,.webp"
+    (change)="onFileSelected($event)"
+  >
+
+  <p class="image-hint">
+    Erlaubt sind JPG, PNG und WebP bis maximal 5 MB.
+  </p>
+
+
+  @if (imagePreview) {
+
+    <div class="image-preview">
+
+      <img
+        [src]="imagePreview"
+        alt="Vorschau des ausgewählten Outfit-Bildes"
+      >
+
+    </div>
+
+  }
+
+</div>
+
+     
+   <!-- Eingabefeld für den Namen des Outfits -->
+<div class="form-group title-group">
+
+        <label for="title">
+          Name des Outfits
+        </label>
+
+        <input
+          id="title"
+          name="title"
+          type="text"
+          [(ngModel)]="outfit.title"
+          required
+          maxlength="80"
+          placeholder="Zum Beispiel: Frühlings-Look"
+        >
+
+      </div>
+
+<!-- Auswahlfeld für die Jahreszeit -->
+<div class="form-group">
+
+  <label for="season">
+    Jahreszeit
+  </label>
+
+        <select
+          id="season"
+          name="season"
+          [(ngModel)]="outfit.season"
+          required
+        >
+          <option value="spring">Frühling</option>
+          <option value="summer">Sommer</option>
+          <option value="autumn">Herbst</option>
+          <option value="winter">Winter</option>
+        </select>
+
+      </div>
+
+
+      <!-- Eingabefeld für den Anlass -->
+      <div class="form-group">
+
+        <label for="occasion">
+          Anlass
+        </label>
+
+        <input
+          id="occasion"
+          name="occasion"
+          type="text"
+          [(ngModel)]="outfit.occasion"
+          required
+          placeholder="Zum Beispiel: Alltag oder Date"
+        >
+
+      </div>
+
+
+      <!-- Eingabefeld für die Hauptfarbe -->
+      <div class="form-group">
+
+        <label for="color">
+          Hauptfarbe
+        </label>
+
+        <input
+          id="color"
+          name="color"
+          type="text"
+          [(ngModel)]="outfit.color"
+          required
+          placeholder="Zum Beispiel: Rosa"
+        >
+
+      </div>
+
+
+    <!-- Optionales Textfeld für eine Beschreibung -->
+<div class="form-group description-group">
+
+  <label for="description">
+    Beschreibung
+  </label>
+
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="outfit.description"
+          rows="4"
+          placeholder="Beschreibe dein Outfit."
+        ></textarea>
+
+      </div>
+
+
+      <!-- Kontrollkästchen für ein Lieblingsoutfit -->
+      <label class="favorite-field">
+
+        <input
+          name="favorite"
+          type="checkbox"
+          [(ngModel)]="outfit.favorite"
+        >
+
+        Als Favorit speichern
+
+      </label>
+
+
+      <!-- Wird nur angezeigt, wenn beim Speichern ein Fehler auftritt. -->
+      @if (errorMessage) {
+
+        <p class="error-message">
+          {{ errorMessage }}
+        </p>
+
+      }
+
+
+     <div class="form-actions">
+
+  <button
+    class="cancel-button"
+    type="button"
+    (click)="cancelEdit()"
+  >
+    Abbrechen
+  </button>
+
+
+  <button
+    class="save-button"
+    type="submit"
+    [disabled]="
+      outfitForm.invalid ||
+      isSaving ||
+      isLoading
+    "
+  >
+
+    @if (isSaving) {
+      Änderungen werden gespeichert...
+    } @else {
+      Änderungen speichern
+    }
+
+  </button>
+
+</div>
+
+    </form>
+
+  </section>
+
+</main>

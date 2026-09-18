@@ -1,5 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 
+import { RouterLink } from '@angular/router';
+
 import {
   ChangeDetectorRef,
   Component,
@@ -24,7 +26,10 @@ type SeasonFilter =
 
 
 @Component({
-  imports: [AsyncPipe],
+  imports: [
+  AsyncPipe,
+  RouterLink,
+],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',

@@ -31,6 +31,29 @@ export class OutfitService {
 
 }
 
+getOutfit(id: string): Observable<Outfit> {
+
+  return this.http.get<Outfit>(
+    `${this.apiUrl}/${id}`
+  );
+  // Lädt ein einzelnes Outfit über seine MongoDB-ID.
+
+}
+
+
+updateOutfit(
+  id: string,
+  outfitData: FormData
+): Observable<Outfit> {
+
+  return this.http.put<Outfit>(
+    `${this.apiUrl}/${id}`,
+    outfitData
+  );
+  // Sendet die geänderten Outfit-Daten an das Backend.
+
+}
+
 toggleFavorite(id: string): Observable<Outfit> {
 
   return this.http.patch<Outfit>(

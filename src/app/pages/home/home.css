@@ -180,6 +180,17 @@ line-height: 1.2;
   background-color: #fff8fb;
   border: 1px solid #f0cad9;
   border-radius:  22px;
+
+  position: relative;
+
+  opacity: 0.55;
+
+transform: scale(0.97);
+
+transition:
+  opacity 0.25s ease,
+  transform 0.25s ease,
+  box-shadow 0.25s ease;
 }
 
 .season-icon{
@@ -227,6 +238,84 @@ border-color: #e9c2b1;
 background-color: #f1f0ff;
  border-color: #d7d4f0;
 }
+
+.season-card.season-active {
+
+  opacity: 1;
+
+  transform: translateY(-6px);
+
+}
+
+
+.season-card.spring.season-active {
+
+  box-shadow:
+    0 0 0 3px rgb(239 191 209 / 45%),
+    0 14px 28px rgb(213 107 148 / 20%);
+
+}
+
+
+.season-card.summer.season-active {
+
+  box-shadow:
+    0 0 0 3px rgb(240 221 161 / 55%),
+    0 14px 28px rgb(218 177 54 / 20%);
+
+}
+
+
+.season-card.autumn.season-active {
+
+  box-shadow:
+    0 0 0 3px rgb(233 194 177 / 55%),
+    0 14px 28px rgb(193 120 87 / 20%);
+
+}
+
+
+.season-card.winter.season-active {
+
+  box-shadow:
+    0 0 0 3px rgb(215 212 240 / 65%),
+    0 14px 28px rgb(120 112 190 / 20%);
+
+}
+
+.seasons-grid.favorites-active .season-card {
+
+  opacity: 1;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 0 0 3px rgb(232 169 189 / 45%),
+    0 14px 28px rgb(181 78 118 / 18%);
+
+  /* Hebt alle Jahreszeiten im Favoritenmodus hervor. */
+
+}
+
+
+.seasons-grid.favorites-active .season-card::after {
+
+  content: '♥';
+
+  position: absolute;
+
+  top: 16px;
+
+  right: 18px;
+
+  color: #d92d68;
+
+  font-size: 22px;
+
+  /* Zeigt im Favoritenmodus auf jeder Karte ein Herz an. */
+
+}
+
 
 .collection{
   max-width: 1000px;
@@ -476,45 +565,92 @@ background: linear-gradient(145deg, #ffe1ed, #fff4f8);
 
 .outfit-actions {
 
-  display: flex;
+display: grid;
 
-  justify-content: space-between;
-  /* Platziert den Favoritenbutton links und den Löschbutton rechts. */
+grid-template-columns: 1fr auto 1fr;
 
-  align-items: center;
+align-items: center;
 
-  margin-top: 18px;
+margin-top: 18px;
+
+/* Favorit links, Bearbeiten mittig und Löschen rechts. */
+
 
 }
 
-.delete-button {
+.edit-button {
+  display: inline-flex;
 
-  padding: 9px 16px;
+  justify-content: center;
 
-  color: #9c294d;
+  align-items: center;
+  
+  width: 52px;
+  height: 52px;
 
-  background-color: #fff0f4;
+  justify-self: center;
 
-  border: 1px solid #e8a9bd;
+  padding: 0;
 
-  border-radius: 999px;
+  background-color: #ffffff;
 
-  font: inherit;
+  border: 1px solid #e3638c;
 
-  font-weight: 600;
+  border-radius: 50%;
+
+  font-size: 20px;
+
+  line-height: 1;
 
   cursor: pointer;
 
 }
 
 
-.delete-button:hover {
+.edit-button:hover {
 
   color: #ffffff;
 
-  background-color: #9c294d;
+  background-color:  #ffe4ee;
 
-  border-color: #9c294d;
+  border-color:  #d85e8c;
+   transform: translateY(-2px);
+
+}
+
+.delete-button {
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+
+  padding: 0;
+
+  background-color: #ffffff;
+border: 1px solid #e3638c;
+
+  border-radius: 50%;
+
+ font-size: 20px;
+
+ line-height: 1;
+
+  cursor: pointer;
+  justify-self: end;
+
+}
+
+
+.delete-button:hover {
+
+ color: #ffffff;
+
+  background-color:  #ffe4ee;
+
+  border-color:  #d85e8c;
+   transform: translateY(-2px);
 
 }
 
