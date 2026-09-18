@@ -1014,3 +1014,420 @@ border: 1px solid #e3638c;
   cursor: pointer;
 
 }
+
+.weather-modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: grid;
+
+  place-items: center;
+
+  padding: 24px;
+
+  background-color: rgb(54 31 40 / 72%);
+
+}
+
+
+.weather-modal-content {
+
+  position: relative;
+
+  width: min(720px, 100%);
+
+  max-height: calc(100vh - 48px);
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+
+  padding: 44px;
+
+  color: #603947;
+
+  background-color: #fffafd;
+
+  border: 1px solid #efbfd1;
+
+  border-radius: 28px;
+
+  box-shadow: 0 24px 70px rgb(54 31 40 / 28%);
+
+}
+
+
+.weather-modal-close {
+
+  position: absolute;
+
+  top: 18px;
+
+  right: 18px;
+
+  width: 46px;
+
+  height: 46px;
+
+  color: #603947;
+
+  background-color: #fff0f5;
+
+  border: 1px solid #efbfd1;
+
+  border-radius: 50%;
+
+  font: inherit;
+
+  font-size: 1.8rem;
+
+  cursor: pointer;
+
+}
+
+
+.weather-heading {
+
+  padding-bottom: 24px;
+
+  text-align: center;
+
+  border-bottom: 1px solid #efbfd1;
+
+}
+
+
+.weather-heading h2 {
+
+  margin: 0 50px 12px;
+
+  font-size: 2.2rem;
+
+}
+
+
+.weather-temperature {
+
+  margin: 0;
+
+  font-size: 1.35rem;
+
+  font-weight: 700;
+
+}
+
+
+.weather-description {
+
+  margin: 8px 0 0;
+
+  color: #886a75;
+
+}
+
+
+.weather-recommendation {
+
+  margin-top: 26px;
+
+}
+
+
+.weather-recommendation h3 {
+
+  margin: 0 0 18px;
+
+  text-align: center;
+
+  font-size: 1.65rem;
+
+}
+
+
+.weather-outfit-card {
+
+  display: grid;
+
+  grid-template-columns: 180px 1fr;
+
+  gap: 22px;
+
+  padding: 16px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #efbfd1;
+
+  border-radius: 20px;
+
+}
+
+
+.weather-outfit-image,
+.weather-image-placeholder {
+
+  width: 180px;
+
+  height: 160px;
+
+  border-radius: 15px;
+
+}
+
+
+.weather-outfit-image {
+
+  display: block;
+
+  object-fit: cover;
+
+}
+
+
+.weather-image-placeholder {
+
+  display: grid;
+
+  place-items: center;
+
+  box-sizing: border-box;
+
+  padding: 16px;
+
+  color: #886a75;
+
+  text-align: center;
+
+  background-color: #fff0f5;
+
+}
+
+
+.weather-outfit-information {
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+}
+
+
+.weather-outfit-information h4 {
+
+  margin: 0;
+
+  font-size: 1.6rem;
+
+}
+
+
+.weather-outfit-information p {
+
+  margin: 10px 0 18px;
+
+  color: #9b687b;
+
+}
+
+
+.weather-match-label {
+
+  padding: 8px 13px;
+
+  color: #9c294d;
+
+  background-color: #ffe5ef;
+
+  border-radius: 999px;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+
+}
+
+
+.weather-actions {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin-top: 26px;
+
+}
+
+
+.weather-primary-button,
+.weather-secondary-button {
+
+  padding: 13px 18px;
+
+  border-radius: 999px;
+
+  font: inherit;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+.weather-primary-button {
+
+  color: #ffffff;
+
+  background-color: #b64d75;
+
+  border: 1px solid #b64d75;
+
+}
+
+
+.weather-secondary-button {
+
+  color: #9c294d;
+
+  background-color: #ffffff;
+
+  border: 1px solid #d45b86;
+
+}
+
+
+.weather-primary-button:hover {
+
+  background-color: #963d60;
+
+  border-color: #963d60;
+
+}
+
+
+.weather-secondary-button:hover:not(:disabled) {
+
+  background-color: #fff0f5;
+
+}
+
+
+.weather-secondary-button:disabled {
+
+  cursor: not-allowed;
+
+  opacity: 0.5;
+
+}
+
+
+.weather-loading,
+.weather-error {
+
+  margin: 30px 0;
+
+  padding: 24px;
+
+  text-align: center;
+
+  border-radius: 16px;
+
+}
+
+
+.weather-loading {
+
+  background-color: #fff0f5;
+
+}
+
+
+.weather-error {
+
+  color: #9c294d;
+
+  background-color: #ffe8ef;
+
+}
+
+
+.weather-source {
+
+  display: block;
+
+  margin-top: 20px;
+
+  color: #886a75;
+
+  text-align: center;
+
+  font-size: 0.8rem;
+
+}
+
+
+@media (max-width: 650px) {
+
+  .weather-modal {
+
+    padding: 14px;
+
+  }
+
+
+  .weather-modal-content {
+
+    max-height: calc(100vh - 28px);
+
+    padding: 38px 22px 26px;
+
+    border-radius: 22px;
+
+  }
+
+
+  .weather-heading h2 {
+
+    margin-left: 40px;
+
+    margin-right: 40px;
+
+    font-size: 1.7rem;
+
+  }
+
+
+  .weather-outfit-card {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .weather-outfit-image,
+  .weather-image-placeholder {
+
+    width: 100%;
+
+    height: 220px;
+
+  }
+
+
+  .weather-actions {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}

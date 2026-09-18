@@ -7,11 +7,15 @@
     <p class="digital-label"> MEIN DIGITALER KLEIDERSCHRANK</p> 
     <h1 class="digital-titel">Every outfit keeps a little memory alive.</h1> 
     
-    <p class="digital-description"> "Save your favorite outfits. 
-      Style for every season and occasion"</p> 
-    <button class="digital-button" type="button"> 
-        <span aria-hidden="true"> ♡ </span> 
-        Erstes Outfit erstellen </button>
+   <button
+  class="digital-button"
+  type="button"
+  (click)="openWeatherRecommendation()"
+>
+  <span aria-hidden="true">☀️</span>
+  Was soll ich heute anziehen?
+</button>
+
 
         <!-- h1: Der Haupttitel dieser Seite -->
         <!-- p: ein ganz normaler Satz-->
@@ -383,6 +387,149 @@
 
 
 </main>
+@if (isWeatherModalOpen) {
+
+  <div
+    class="weather-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Wetterbasierte Outfit-Empfehlung"
+  >
+
+    <div class="weather-modal-content">
+
+      <button
+        class="weather-modal-close"
+        type="button"
+        (click)="closeWeatherRecommendation()"
+        aria-label="Wetterempfehlung schließen"
+      >
+        ×
+      </button>
+
+
+      @if (isWeatherLoading) {
+
+        <p class="weather-loading">
+          Wetter und Outfits werden geladen...
+        </p>
+
+      } @else if (weatherErrorMessage) {
+
+        <p class="weather-error">
+          {{ weatherErrorMessage }}
+        </p>
+
+      } @else if (recommendedOutfit; as outfit) {
+
+        <div class="weather-heading">
+
+       <h2> Heute in {{ weatherLocation }}  </h2>
+
+          <p class="weather-temperature">
+            <span aria-hidden="true">
+              {{ weatherIcon }}
+            </span>
+
+            {{ currentTemperature }} °C
+          </p>
+
+          <p class="weather-description">
+            {{ weatherDescription }}
+          </p>
+
+        </div>
+
+
+        <div class="weather-recommendation">
+
+          <h3>Deine Outfit-Empfehlung</h3>
+
+
+          <div class="weather-outfit-card">
+
+            @if (outfit.imageUrl) {
+
+              <img
+                class="weather-outfit-image"
+                [src]="
+                  'http://localhost:3000' +
+                  outfit.imageUrl
+                "
+                [alt]="outfit.title"
+              >
+
+            } @else {
+
+              <div class="weather-image-placeholder">
+                Kein Bild vorhanden
+              </div>
+
+            }
+
+
+            <div class="weather-outfit-information">
+
+              <h4>{{ outfit.title }}</h4>
+
+              <p>
+                {{ outfit.season }}
+                ·
+                {{ outfit.occasion }}
+                ·
+                {{ outfit.color }}
+              </p>
+
+              <span class="weather-match-label">
+                ☂ Passt zum heutigen Wetter
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="weather-actions">
+
+          <button
+            class="weather-primary-button"
+            type="button"
+            (click)="openRecommendedOutfit()"
+          >
+            Outfit ansehen
+          </button>
+
+          <button
+            class="weather-secondary-button"
+            type="button"
+            (click)="showNextWeatherOutfit()"
+            [disabled]="weatherOutfits.length < 2"
+          >
+            Anderes Outfit
+          </button>
+
+        </div>
+
+
+        <a
+          class="weather-source"
+          href="https://open-meteo.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Weather data by Open-Meteo
+        </a>
+
+      }
+
+    </div>
+
+  </div>
+
+}
+
 @if (selectedImageOutfit; as modalOutfit) {
 
   <div

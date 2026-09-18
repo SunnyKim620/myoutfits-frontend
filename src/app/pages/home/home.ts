@@ -14,6 +14,8 @@ import { Outfit } from '../../models/outfit';
 
 import { OutfitService } from '../../services/outfit';
 
+import { Weather } from '../../services/weather';
+
 
 type SeasonFilter =
   | 'all'
@@ -39,12 +41,55 @@ export class Home {
   private readonly outfitService =
     inject(OutfitService);
 
+  private readonly weatherService =
+  inject(Weather);
+// Stellt die aktuellen Wetterdaten für Berlin bereit.
+
   private readonly changeDetectorRef =
     inject(ChangeDetectorRef);
 
 
   outfits$ =
     this.outfitService.getOutfits();
+
+    isWeatherModalOpen = false;
+// Speichert, ob die Wetterempfehlung geöffnet ist.
+
+
+isWeatherLoading = false;
+// Zeigt, ob die Wetterdaten gerade geladen werden.
+
+
+weatherErrorMessage = '';
+// Speichert eine mögliche Fehlermeldung.
+
+weatherLocation = 'Berlin';
+// Speichert den Namen des verwendeten Wetterstandorts.
+
+currentTemperature: number | null =
+  null;
+// Speichert die Temperatur des aktuellen Standorts oder von Berlin.
+
+
+weatherDescription = '';
+// Speichert die Beschreibung des aktuellen Wetters.
+
+
+weatherIcon = '🌦️';
+// Speichert das passende Wettersymbol.
+
+
+recommendedOutfit: Outfit | null =
+  null;
+// Speichert das aktuell empfohlene Outfit.
+
+
+weatherOutfits: Outfit[] = [];
+// Speichert alle Outfits, die zum aktuellen Wetter passen.
+
+
+weatherOutfitIndex = 0;
+// Speichert die Position des aktuell empfohlenen Outfits.
 
 
   selectedSeason: SeasonFilter =
@@ -80,6 +125,332 @@ export class Home {
 
   selectedImageIndex = -1;
   // Speichert die Position des aktuellen Bildes in der Liste.
+
+private getRecommendedSeasons(
+  temperature: number
+): string[] {
+
+  if (temperature >= 25) {
+
+    return [
+      'summer',
+    ];
+
+  }
+
+  if (temperature >= 18) {
+
+    return [
+      'spring',
+      'summer',
+    ];
+
+  }
+
+  if (temperature >= 10) {
+
+    return [
+      'spring',
+      'autumn',
+    ];
+
+  }
+
+  return [
+    'winter',
+  ];
+
+}
+// Bestimmt anhand der Temperatur passende Jahreszeiten.
+
+private updateWeatherDisplay(
+  weatherCode: number
+): void {
+
+  if (weatherCode === 0) {
+
+    this.weatherIcon = '☀️';
+
+    this.weatherDescription =
+      'Heute ist es sonnig.';
+
+    return;
+
+  }
+
+  if (
+    weatherCode >= 51 &&
+    weatherCode <= 67 ||
+    weatherCode >= 80 &&
+    weatherCode <= 82
+  ) {
+
+    this.weatherIcon = '🌧️';
+
+    this.weatherDescription =
+      'Heute ist es regnerisch.';
+
+    return;
+
+  }
+
+  if (
+    weatherCode >= 71 &&
+    weatherCode <= 77
+  ) {
+
+    this.weatherIcon = '❄️';
+
+    this.weatherDescription =
+      'Heute schneit es.';
+
+    return;
+
+  }
+
+  if (weatherCode >= 95) {
+
+    this.weatherIcon = '⛈️';
+
+    this.weatherDescription =
+      'Heute gibt es ein Gewitter.';
+
+    return;
+
+  }
+
+  this.weatherIcon = '☁️';
+
+  this.weatherDescription =
+    'Heute ist es bewölkt.';
+
+}
+// Erstellt aus dem Wettercode ein Symbol und eine Beschreibung.
+
+
+openWeatherRecommendation(): void {
+
+  if (!navigator.geolocation) {
+
+    this.weatherLocation =
+      'Berlin';
+
+    this.loadWeatherRecommendation();
+
+    return;
+
+  }
+
+
+  navigator.geolocation
+    .getCurrentPosition(
+
+      (position) => {
+
+        this.weatherLocation =
+          'deiner Nähe';
+
+        this.loadWeatherRecommendation(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+
+      },
+
+      () => {
+
+        this.weatherLocation =
+          'Berlin';
+
+        this.loadWeatherRecommendation();
+        // Verwendet Berlin, wenn der Standort nicht erlaubt ist.
+
+      },
+
+      {
+        enableHighAccuracy: false,
+        timeout: 7000,
+        maximumAge: 300000,
+      }
+
+    );
+
+}
+// Verwendet den aktuellen Standort oder Berlin als Ersatz.
+
+
+private loadWeatherRecommendation(
+  latitude = 52.52,
+  longitude = 13.41
+): void {
+
+
+  this.isWeatherModalOpen = true;
+
+  this.isWeatherLoading = true;
+
+  this.weatherErrorMessage = '';
+
+  this.recommendedOutfit = null;
+
+
+  forkJoin({
+
+    weather:
+      this.weatherService
+        .getCurrentWeather(
+        latitude,
+        longitude
+),
+
+    outfits:
+      this.outfitService
+        .getOutfits(),
+
+  }).subscribe({
+
+    next: ({
+      weather,
+      outfits,
+    }) => {
+
+      const currentWeather =
+        weather.current;
+
+      this.currentTemperature =
+        Math.round(
+          currentWeather.temperature_2m
+        );
+
+      this.updateWeatherDisplay(
+        currentWeather.weather_code
+      );
+
+
+      const recommendedSeasons =
+        this.getRecommendedSeasons(
+          currentWeather
+            .apparent_temperature
+        );
+      // Verwendet die gefühlte Temperatur für die Empfehlung.
+
+
+      const suitableOutfits =
+        outfits.filter(
+          (outfit) =>
+            recommendedSeasons.includes(
+              outfit.season
+            )
+        );
+      // Sucht Outfits mit einer passenden Jahreszeit.
+
+
+      this.weatherOutfits =
+        suitableOutfits.length > 0
+          ? suitableOutfits
+          : outfits;
+      // Verwendet alle Outfits, wenn keine passende Jahreszeit gefunden wird.
+
+
+      this.weatherOutfitIndex = 0;
+
+      this.recommendedOutfit =
+        this.weatherOutfits[0] ??
+        null;
+
+
+      if (!this.recommendedOutfit) {
+
+        this.weatherErrorMessage =
+          'Es sind noch keine Outfits gespeichert.';
+
+      }
+
+
+      this.isWeatherLoading = false;
+
+      this.changeDetectorRef
+        .detectChanges();
+
+    },
+
+    error: (fehler) => {
+
+      console.error(
+        'Fehler beim Laden der Wetterempfehlung:',
+        fehler
+      );
+
+      this.weatherErrorMessage =
+        'Die Wetterempfehlung konnte nicht geladen werden.';
+
+      this.isWeatherLoading = false;
+
+      this.changeDetectorRef
+        .detectChanges();
+
+    },
+
+  });
+
+}
+
+closeWeatherRecommendation(): void {
+
+  this.isWeatherModalOpen = false;
+  // Schließt die Wetterempfehlung.
+
+}
+
+
+showNextWeatherOutfit(): void {
+
+
+  if (this.weatherOutfits.length === 0) {
+
+    return;
+
+  }
+
+
+  this.weatherOutfitIndex =
+    (
+      this.weatherOutfitIndex + 1
+    ) % this.weatherOutfits.length;
+  // Springt nach dem letzten Outfit wieder zum ersten Outfit.
+
+
+  this.recommendedOutfit =
+    this.weatherOutfits[
+      this.weatherOutfitIndex
+    ];
+
+}
+// Zeigt das nächste Outfit der Wetterempfehlung.
+
+
+openRecommendedOutfit(): void {
+
+  const outfit =
+    this.recommendedOutfit;
+
+
+  if (!outfit) {
+
+    return;
+
+  }
+
+
+  this.closeWeatherRecommendation();
+
+  this.openImage(
+    outfit,
+    this.weatherOutfits
+  );
+  // Öffnet das empfohlene Outfit in der vorhandenen Großansicht.
+
+}
 
 
   toggleSelectionMode(): void {
