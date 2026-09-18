@@ -408,11 +408,31 @@
       </button>
 
 
-      @if (isWeatherLoading) {
+     @if (isWeatherLoading) {
 
-        <p class="weather-loading">
-          Wetter und Outfits werden geladen...
-        </p>
+  <div
+    class="
+      weather-loading
+      d-flex
+      justify-content-center
+      align-items-center
+      gap-3
+    "
+    role="status"
+  >
+
+    <div
+      class="spinner-border"
+      aria-hidden="true"
+    ></div>
+
+    <span>
+      Wetter und Outfits werden geladen...
+    </span>
+
+  </div>
+
+
 
       } @else if (weatherErrorMessage) {
 
@@ -494,7 +514,7 @@
         <div class="weather-actions">
 
           <button
-            class="weather-primary-button"
+           class="btn weather-primary-button"
             type="button"
             (click)="openRecommendedOutfit()"
           >
@@ -502,7 +522,7 @@
           </button>
 
           <button
-            class="weather-secondary-button"
+            class="btn weather-secondary-button"
             type="button"
             (click)="showNextWeatherOutfit()"
             [disabled]="weatherOutfits.length < 2"
