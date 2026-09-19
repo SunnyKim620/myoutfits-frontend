@@ -1,59 +1,223 @@
-# MyoutfitsFrontend
+# My Outfits – Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
+My Outfits ist ein digitaler Kleiderschrank, in dem persönliche Outfits mit Bildern und zusätzlichen Informationen gespeichert und verwaltet werden können.
 
-## Development server
+Die Anwendung entstand im Rahmen des Moduls **Web-Technologien** an der HTW Berlin im Sommersemester 2026.
 
-To start a local development server, run:
+## Funktionen
+
+- Neue Outfits mit Bild und Informationen anlegen
+- Vorhandene Outfits bearbeiten
+- Bilder eines Outfits ersetzen
+- Einzelne oder mehrere Outfits löschen
+- Outfits als Favoriten markieren
+- Outfits nach Jahreszeit oder Favoriten filtern
+- Bilder in einer vergrößerten Galerie anzeigen
+- Zwischen Bildern vor- und zurückwechseln
+- Bildvorschau direkt nach der Dateiauswahl
+- Wetterbasierte Outfit-Empfehlung
+- Verwendung des aktuellen Standorts nach Zustimmung
+- Berlin als Ersatzstandort bei abgelehnter Standortfreigabe
+- Responsive Darstellung für Desktop, Tablet und Smartphone
+
+## Outfit-Daten
+
+Ein Outfit enthält folgende Informationen:
+
+- Name
+- Jahreszeit
+- Anlass
+- Hauptfarbe
+- Beschreibung
+- Favoritenstatus
+- Bild
+
+Unterstützte Bildformate:
+
+- JPG und JPEG
+- PNG
+- WebP
+- Maximale Dateigröße: 5 MB
+
+## Wetterbasierte Empfehlung
+
+Über die Schaltfläche **„Was soll ich heute anziehen?“** kann eine Outfit-Empfehlung geöffnet werden.
+
+Die Anwendung:
+
+1. fragt nach dem aktuellen Standort,
+2. lädt das aktuelle Wetter über Open-Meteo,
+3. ordnet die gefühlte Temperatur einer passenden Jahreszeit zu,
+4. wählt ein gespeichertes Outfit dieser Jahreszeit aus.
+
+Wenn der Zugriff auf den Standort abgelehnt wird oder nicht verfügbar ist, wird automatisch Berlin verwendet.
+
+Die Standortdaten werden nicht dauerhaft gespeichert.
+
+## Verwendete Technologien
+
+- Angular 22
+- TypeScript 6
+- HTML5
+- CSS3
+- Bootstrap 5.3
+- RxJS
+- Angular Forms
+- Angular Router
+- Vitest
+- Open-Meteo API
+- Node.js und npm
+
+## Architektur
+
+Das Projekt besteht aus zwei getrennten Anwendungen:
+
+- **Frontend:** Angular-Anwendung in diesem Repository
+- **Backend:** Node.js-, Express- und MongoDB-Anwendung
+
+Backend-Repository:
+
+[myoutfits-backend](https://github.com/SunnyKim620/myoutfits-backend)
+
+Das Frontend kommuniziert über eine REST-API mit dem Backend.
+
+## Voraussetzungen
+
+Zum lokalen Ausführen werden benötigt:
+
+- Node.js
+- npm
+- das laufende My-Outfits-Backend
+- eine MongoDB-Verbindung für das Backend
+
+Verwendete Entwicklungsumgebung:
+
+- Node.js 24.19.0
+- npm 11.17.0
+- Angular CLI 22.1.5
+
+## Installation
+
+Repository klonen:
 
 ```bash
-ng serve
+git clone https://github.com/SunnyKim620/myoutfits-frontend.git
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+In den Projektordner wechseln:
 
 ```bash
-ng generate component component-name
+cd myoutfits-frontend
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abhängigkeiten installieren:
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+## Anwendung starten
 
-To build the project run:
+Zuerst muss das Backend auf Port `3000` gestartet werden.
+
+Danach kann das Frontend gestartet werden:
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Die Anwendung ist anschließend unter folgender Adresse erreichbar:
 
-## Running unit tests
+```text
+http://localhost:4200
+```
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Die Backend-API wird lokal unter folgender Adresse erwartet:
+
+```text
+http://localhost:3000
+```
+
+## Produktions-Build erstellen
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+Die erzeugten Dateien befinden sich anschließend im Ordner `dist/`.
 
-For end-to-end (e2e) testing, run:
+## Tests ausführen
+
+Alle Tests einmalig ausführen:
 
 ```bash
-ng e2e
+ng test --watch=false
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Aktueller Teststand:
 
-## Additional Resources
+- 6 Testdateien
+- 7 erfolgreiche Tests
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## REST-Schnittstelle
+
+| Methode | Route | Funktion |
+|---|---|---|
+| GET | `/api/outfits` | Alle Outfits laden |
+| GET | `/api/outfits/:id` | Ein Outfit laden |
+| POST | `/api/outfits` | Neues Outfit erstellen |
+| PUT | `/api/outfits/:id` | Outfit aktualisieren |
+| PATCH | `/api/outfits/:id/favorite` | Favoritenstatus ändern |
+| DELETE | `/api/outfits/:id` | Outfit löschen |
+
+## Projektstruktur
+
+```text
+src/app/
+├── models/
+│   └── outfit.ts
+├── pages/
+│   ├── home/
+│   ├── new-outfit/
+│   └── edit-outfit/
+├── services/
+│   ├── outfit.ts
+│   └── weather.ts
+├── app.routes.ts
+└── app.ts
+```
+
+## Screenshots
+
+### Startseite
+
+![Startseite von My Outfits](docs/screenshots/startseite.png)
+
+### Outfit-Sammlung und Saisonfilter
+
+![Outfit-Sammlung mit Saisonfiltern](docs/screenshots/outfit-sammlung.png)
+
+### Neues Outfit erstellen
+
+![Formular zum Erstellen eines Outfits](docs/screenshots/outfit-erstellen.png)
+
+### Wetterbasierte Outfit-Empfehlung
+
+![Wetterbasierte Outfit-Empfehlung](docs/screenshots/wetter-empfehlung.png)
+
+## Externe Datenquelle
+
+Die Wetterdaten werden von [Open-Meteo](https://open-meteo.com/) bereitgestellt.
+
+
+## Verzeichnis der verwendeten KI-Werkzeuge
+
+- **ChatGPT / Codex (OpenAI):** Unterstützung bei der Erklärung von Angular-, TypeScript- und CSS-Konzepten, bei der Planung einzelner Funktionen, bei der Fehlersuche sowie bei Vorschlägen für Codeabschnitte, Kommentare und Dokumentation.
+
+Alle Vorschläge wurden geprüft, an das Projekt angepasst und durch Builds, Tests und manuelle Funktionsprüfungen kontrolliert. Die Verantwortung für die Umsetzung und das Verständnis des Projekts liegt bei der Autorin.
+
+## Autorin
+
+**Son Yong Kim**  
+HTW Berlin – Web-Technologien  
+Sommersemester 2026
