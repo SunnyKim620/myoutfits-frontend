@@ -1,4 +1,9 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -23,6 +28,10 @@ export class NewOutfit {
 
   private readonly router =
     inject(Router); // Ermöglicht die Navigation zu einer anderen Seite.
+
+    private readonly changeDetectorRef =
+  inject(ChangeDetectorRef);
+// Aktualisiert die Bildvorschau direkt nach der Dateiauswahl.
 
 
   outfit: Outfit = {
@@ -114,8 +123,11 @@ export class NewOutfit {
       this.imagePreview =
         reader.result as string;
 
-    }; // Erstellt eine Vorschau des ausgewählten Bildes.
+   this.changeDetectorRef
+    .detectChanges();
+  // Aktualisiert die Bildvorschau direkt nach der Dateiauswahl.
 
+};
     reader.readAsDataURL(file);
 
   }
