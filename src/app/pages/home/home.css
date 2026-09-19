@@ -1437,3 +1437,119 @@ border: 1px solid #e3638c;
   }
 
 }
+
+@media (max-width: 650px) {
+
+  .inhalt {
+    padding: 24px 16px;
+  }
+
+  .digital {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    min-height: auto;
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .digital-text,
+  .digital-preview {
+    min-width: 0;
+  }
+
+  .digital-label {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+  }
+
+  .digital-titel {
+    font-size: 36px;
+  }
+
+  .digital-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .digital-preview {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .preview-symbol {
+    min-height: 90px;
+    font-size: 30px;
+  }
+
+  .seasons {
+    margin-top: 32px;
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+
+  .seasons-titel {
+    margin-bottom: 24px;
+  }
+
+  .seasons-titel h2 {
+    font-size: 30px;
+  }
+
+  .seasons-description {
+    font-size: 15px;
+  }
+
+  .seasons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .season-card {
+    gap: 8px;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .season-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .season-card h3 {
+    font-size: 18px;
+  }
+
+  .season-card p {
+    font-size: 14px;
+  }
+
+  .collection {
+    margin-top: 40px;
+  }
+
+  .collection-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .collection-heading h2 {
+    font-size: 30px;
+  }
+
+  .collection-filters {
+    justify-content: flex-start;
+  }
+
+  .filter-button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .outfit-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+}
