@@ -388,6 +388,17 @@ background-color: #f1f0ff;
   gap: 22px;
 }
 
+.empty-filter-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 32px;
+  color: #7f5b69;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px dashed #efbfd1;
+  border-radius: 20px;
+}
+
 .outfit-card{
   overflow: hidden;
   background-color: #ffffff;

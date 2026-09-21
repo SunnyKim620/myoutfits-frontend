@@ -250,6 +250,7 @@
 
         <article class="outfit-card">
 
+
     @if (selectionMode) {
 
      <label class="outfit-selection">
@@ -371,9 +372,17 @@
 
         </article>
 
+
+      } @empty {
+
+        <p class="empty-filter-message">
+          Für diesen Filter wurden keine Outfits gefunden.
+        </p>
+
       }
 
     </div>
+
 
   }
 
