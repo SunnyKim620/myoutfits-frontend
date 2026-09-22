@@ -71,6 +71,8 @@ export class EditOutfit implements OnInit {
 
   errorMessage = '';
 
+
+// Lädt beim Öffnen der Seite das vorhandene Outfit.
 ngOnInit(): void {
 
   const id =
@@ -93,13 +95,16 @@ ngOnInit(): void {
 
 
   this.outfitId = id;
-
+// Speichert die ID des aktuell bearbeiteten Outfits.
 
   this.outfitService
     .getOutfit(id)
+    // Lädt das Outfit mit dieser ID vom Backend.
     .subscribe({
+  // Verarbeitet die Antwort der HTTP-Anfrage.
 
       next: (outfit) => {
+ // Wird ausgeführt, wenn das Outfit erfolgreich geladen wurde.
 
         this.outfit = outfit;
         // Übernimmt die vorhandenen Daten in das Formular.
@@ -123,6 +128,7 @@ ngOnInit(): void {
       },
 
       error: (fehler) => {
+// Wird ausgeführt, wenn das Laden des Outfits fehlschlägt.
 
         console.error(
           'Fehler beim Laden des Outfits:',
@@ -142,14 +148,17 @@ ngOnInit(): void {
     });
 
 }
+
+// Verarbeitet ein neu ausgewähltes Bild und erstellt eine Vorschau.
 onFileSelected(event: Event): void {
 
   const input =
     event.target as HTMLInputElement;
+// Greift auf das Datei-Eingabefeld zu.
 
   const file =
     input.files?.[0];
-
+// Liest die erste ausgewählte Datei.
 
   if (!file) {
 
@@ -164,7 +173,7 @@ onFileSelected(event: Event): void {
     'image/png',
     'image/webp',
   ];
-
+// Legt die erlaubten Bildformate fest.
 
   if (!allowedTypes.includes(file.type)) {
 
@@ -179,6 +188,8 @@ onFileSelected(event: Event): void {
 
 
   if (file.size > 5 * 1024 * 1024) {
+// Prüft, ob das Bild größer als 5 MB ist.
+
 
     this.errorMessage =
       'Das Bild darf höchstens 5 MB groß sein.';
@@ -197,7 +208,7 @@ onFileSelected(event: Event): void {
 
   const reader =
     new FileReader();
-
+// Liest die ausgewählte Bilddatei für die Vorschau.
 
   reader.onload = () => {
 
@@ -215,6 +226,8 @@ onFileSelected(event: Event): void {
 
 }
 
+
+// Sendet die geänderten Outfit-Daten an das Backend.
 updateOutfit(): void {
 
   if (!this.outfitId) {
@@ -282,9 +295,12 @@ updateOutfit(): void {
       this.outfitId,
       outfitData
     )
+    // Sendet die ID und die geänderten Daten an das Backend.
+
     .subscribe({
 
       next: () => {
+ // Wird nach einer erfolgreichen Aktualisierung ausgeführt.
 
         this.router.navigate(['/']);
         // Kehrt nach erfolgreicher Änderung zur Startseite zurück.
@@ -292,6 +308,8 @@ updateOutfit(): void {
       },
 
       error: (fehler) => {
+         // Wird ausgeführt, wenn die Aktualisierung fehlschlägt.
+         
 
         console.error(
           'Fehler beim Aktualisieren des Outfits:',
@@ -312,10 +330,12 @@ updateOutfit(): void {
 
 }
 
+
+// Bricht die Bearbeitung ab und navigiert zurück zur Startseite.
 cancelEdit(): void {
 
  this.router.navigate(['/']);
-  // Bricht die Bearbeitung ab und kehrt zur Startseite zurück.
+
 
 }
 
