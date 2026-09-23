@@ -59,6 +59,7 @@ export class NewOutfit {
     ''; // Speichert eine mögliche Fehlermeldung.
 
 
+  // Verarbeitet das ausgewählte Bild und erstellt eine Vorschau.
   onFileSelected(event: Event): void {
 
     const input =
@@ -66,6 +67,7 @@ export class NewOutfit {
 
     const file =
       input.files?.[0];
+// Liest die erste ausgewählte Datei.
 
 
     if (!file) {
@@ -84,6 +86,8 @@ export class NewOutfit {
       'image/png',
       'image/webp',
     ];
+// Legt die erlaubten Bildformate fest.
+
 
 
     if (!allowedTypes.includes(file.type)) {
@@ -98,7 +102,7 @@ export class NewOutfit {
     }
 
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 5 * 1024 * 1024) {  // Prüft, ob das Bild größer als 5 MB ist.
 
       this.errorMessage =
         'Das Bild darf höchstens 5 MB groß sein.';
@@ -132,7 +136,7 @@ export class NewOutfit {
 
   }
 
-
+// Erstellt und speichert ein neues Outfit.
   saveOutfit(): void {
 
     this.isSaving = true;
@@ -144,10 +148,12 @@ export class NewOutfit {
       new FormData(); // Erstellt ein Formular für Textdaten und Bilddatei.
 
 
-    outfitData.append(
+// Fügt die Outfit-Daten zu FormData hinzu.
+    outfitData.append( 
       'title',
       this.outfit.title
     );
+
 
     outfitData.append(
       'season',
@@ -187,11 +193,12 @@ export class NewOutfit {
 
     this.outfitService
       .createOutfit(outfitData)
+       // Sendet die Daten des neuen Outfits an das Backend.
       .subscribe({
 
-        next: () => {
+        next: () => {  // Wird nach erfolgreichem Speichern ausgeführt.
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/']);  // Wird ausgeführt, wenn das Speichern fehlschlägt.
 
         },
 
