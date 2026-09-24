@@ -162,8 +162,8 @@ onFileSelected(event: Event): void {
 
   if (!file) {
 
-    return;
     // Behält das bisherige Bild, wenn kein neues ausgewählt wird.
+    return;
 
   }
 
@@ -309,7 +309,7 @@ updateOutfit(): void {
 
       error: (fehler) => {
          // Wird ausgeführt, wenn die Aktualisierung fehlschlägt.
-         
+
 
         console.error(
           'Fehler beim Aktualisieren des Outfits:',
