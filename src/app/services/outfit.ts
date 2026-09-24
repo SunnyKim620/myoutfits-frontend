@@ -12,10 +12,9 @@ export class OutfitService {
      inject(HttpClient); // Stellt Funktionen für HTTP-Anfragen bereit.
 
      private readonly apiUrl = 
-     'http://localhost:3000/api/outfits';  // Adresse der Outfit-API im Backend.
+      'http://localhost:3000/api/outfits';  // Adresse der Outfit-API im Backend.
 
     getOutfits(): Observable<Outfit[]> {
-
     return this.http.get<Outfit[]>(
         this.apiUrl
     );  // Lädt alle Outfits vom Backend.
@@ -35,8 +34,7 @@ getOutfit(id: string): Observable<Outfit> {
 
   return this.http.get<Outfit>(
     `${this.apiUrl}/${id}`
-  );
-  // Lädt ein einzelnes Outfit über seine MongoDB-ID.
+  ); // Lädt ein einzelnes Outfit über seine MongoDB-ID.
 
 }
 
