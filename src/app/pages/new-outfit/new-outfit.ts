@@ -198,7 +198,7 @@ export class NewOutfit {
 
         next: () => {  // Wird nach erfolgreichem Speichern ausgeführt.
 
-          this.router.navigate(['/']);  // Wird ausgeführt, wenn das Speichern fehlschlägt.
+          this.router.navigate(['/']); // Wechselt nach erfolgreichem Speichern zur Startseite.
 
         },
 
