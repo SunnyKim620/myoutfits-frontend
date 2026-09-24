@@ -709,6 +709,7 @@ openRecommendedOutfit(): void {
 
     if (!outfit._id) {
 
+       // Beendet die Methode, wenn keine MongoDB-ID vorhanden ist.
       return;
 
     }
