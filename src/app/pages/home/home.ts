@@ -576,19 +576,20 @@ openRecommendedOutfit(): void {
       'favorites'
     ) {
 
+    // Zeigt nur als Favorit gespeicherte Outfits an.
       return outfits.filter(
         (outfit) => outfit.favorite
       );
-      // Zeigt nur als Favorit gespeicherte Outfits an.
 
     }
 
-    return outfits.filter(
+    // Zeigt nur Outfits der ausgewählten Jahreszeit an.
+  return outfits.filter(
       (outfit) =>
         outfit.season ===
         this.selectedSeason
     );
-    // Zeigt nur Outfits der ausgewählten Jahreszeit an.
+
 
   }
 
